@@ -1,195 +1,231 @@
+-- Active: 1728526607296@@127.0.0.1@3306
 -- 01. Querying data
-SELECT
-    LastName
-FROM
-    employees;
+SELECT 
+  LastName 
+FROM 
+  employees;
 
 SELECT
-    LastName, FirstName
+  LastName, FirstName
 FROM
-    employees;
+  employees;
 
 SELECT
-    *
+  * 
 FROM
-    employees;
+  employees;
+
+SELECT 
+  FirstName AS '이름'
+FROM 
+  employees;
 
 SELECT
-    FirstName AS '이름'
+  Name,
+  Milliseconds / 60000 AS '재생 시간(분)'
 FROM
-    employees;
+  tracks;
 
-SELECT
-    Name,
-    Milliseconds / 60000 AS '재생 시간(분)'
-FROM
-    tracks;
 -- 02. Sorting data
 SELECT
-    FirstName
+  FirstName
 FROM
-    employees
+  employees
 ORDER BY
-    FirstName;
+  FirstName;
 
 SELECT
-    FirstName
-From
-    employees
+  FirstName
+FROM
+  employees
 ORDER BY
-    FirstName DESC;
+  FirstName DESC;
 
 SELECT
-    Country,
-    City
+  Country,
+  City
 FROM
-    customers
+  customers
 ORDER BY
-    Country DESC,
-    City;
+  Country DESC,
+  City;
 
 SELECT
-    Name,
-    Milliseconds / 60000 AS '재생 시간(분)'
+  Name,
+  Milliseconds / 60000 AS '재생 시간(분)'
 FROM
-    tracks
+  tracks
 ORDER BY
-    Milliseconds DESC
+  Milliseconds DESC;
 
 -- NULL 정렬 예시
 SELECT
-    ReportsTo
+  ReportsTo
 FROM
-    employees
+  employees
 ORDER BY
-    ReportsTo;
+  ReportsTo;
+
 
 -- 03. Filtering data
 SELECT
-    Country
+  Country
 FROM
-    customers
+  customers
 ORDER BY
-    Country;
+  Country;
 
 SELECT DISTINCT
-    Country
+  Country
 FROM
-    customers
+  customers
 ORDER BY
-    Country;
+  Country;
 
 SELECT
-    LastName, FirstName, City
+  LastName, FirstName, City
 FROM
-    customers
+  customers
 WHERE
-    City = 'Prague';
+  City = 'Prague';
 
 SELECT
-    LastName, FirstName, City
+  LastName, FirstName, City
 FROM
-    customers
+  customers
 WHERE
-    City != 'Prague';
+  City != 'Prague';
 
 SELECT
-    LastName, FirstName, Company, Country
+  LastName, FirstName, Company, Country
 FROM
-    customers
+  customers
 WHERE
-    Company is NULL
-    AND Country = 'USA';
+  Company IS NULL
+  AND Country = 'USA';
 
 SELECT
-    LastName, FirstName, Company, Country
+  LastName, FirstName, Company, Country
 FROM
-    customers
+  customers
 WHERE
-    Company is NULL
-    OR Country = 'USA';
+  Company IS NULL
+  OR Country = 'USA';
 
 SELECT
-    Name, Bytes
-FROM
-    tracks
+  Name, Bytes
+FROM  
+  tracks
 WHERE
-    Bytes BETWEEN 100000 AND 500000;
+  Bytes BETWEEN 10000 AND 500000;
+  -- Bytes >= 10000
+  -- AND Bytes <= 500000;
 
 SELECT
-    Name, Bytes
-FROM
-    tracks
+  Name, Bytes
+FROM  
+  tracks
 WHERE
-    Bytes BETWEEN 100000 AND 500000
+  Bytes BETWEEN 10000 AND 500000
 ORDER BY
-    Bytes;
+  Bytes;
 
 SELECT
-    LastName, FirstName, Country
+  LastName, FirstName, Country
 FROM
-    customers
+  customers
 WHERE
-    Country IN ('Canada', 'Germany', 'France');
-# WHERE
-#   Country = 'Canada'
-#   OR Country = 'Germany'
-#   OR Country = 'France';
+  Country IN ('Canada', 'Germany', 'France');
+  -- Country = 'Canada'
+  -- OR Country = 'Germany'
+  -- OR Country = 'France';
 
 SELECT
-    LastName, FirstName, Country
+  LastName, FirstName, Country
 FROM
-    customers
+  customers
 WHERE
-    Country NOT IN ('Canada', 'Germany', 'France');
+  Country NOT IN ('Canada', 'Germany', 'France');
 
 SELECT
-    LastName, FirstName
+  LastName, FirstName
 FROM
-    customers
+  customers
 WHERE
-    LastName LIKE '%son';
+  LastName LIKE '%son';
 
 SELECT
-    LastName, FirstName
+  LastName, FirstName
 FROM
-    customers
+  customers
 WHERE
-    FirstName LIKE '___a';
+  FirstName LIKE '___a';
 
 SELECT
-    TrackId, Name, Bytes
+  TrackId, Name, Bytes
 FROM
-    tracks
+  tracks
 ORDER BY
-    Bytes DESC
+  Bytes DESC
 LIMIT 7;
 
 SELECT
-    TrackId, Name, Bytes
+  TrackId, Name, Bytes
 FROM
-    tracks
+  tracks
 ORDER BY
-    Bytes DESC
-LIMIT 3, 4;
+  Bytes DESC
+-- LIMIT 3, 4;
+LIMIT 4 OFFSET 3;
+
 
 -- 04. Grouping data
-SELECT
-    Composer,
-    AVG(Bytes) AS avg0fBytes
-FROM
-    tracks
-GROUP BY
-    Composer
-ORDER BY
-    avg0fBytes DESC;
 
 SELECT
-    Composer,
-    AVG(Milliseconds / 60000) AS avg0fMinute
+  Country, COUNT(*)
 FROM
-    tracks
+  customers
 GROUP BY
-    Composer
+  Country;
+
+SELECT
+  Composer,
+  AVG(Bytes)
+FROM
+  tracks
+GROUP BY
+  Composer
+ORDER BY
+  AVG(Bytes) DESC;
+
+SELECT
+  Composer,
+  AVG(Bytes) AS avgOfBytes
+FROM
+  tracks
+GROUP BY
+  Composer
+ORDER BY
+  avgOfBytes DESC;
+
+-- 에러
+SELECT
+  Composer,
+  AVG(Milliseconds / 60000) AS avgOfMinute
+FROM
+  tracks
+WHERE 
+  avgOfMinute < 10
+GROUP BY
+  Composer;
+
+-- 에러 해결
+SELECT
+  Composer,
+  AVG(Milliseconds / 60000) AS avgOfMinute
+FROM
+  tracks
+GROUP BY
+  Composer
 HAVING
-    avg0fMinute < 10;
+  avgOfMinute < 10;

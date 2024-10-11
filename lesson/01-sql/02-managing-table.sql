@@ -3,51 +3,37 @@ PRAGMA table_info('examples');
 
 -- 1. Create a table
 CREATE TABLE examples (
-  ExamId INTEGER PRIMARY KEY AUTOINCREMENT,
-  LastName VARCHAR(50) NOT NULL,
-  FirstName VARCHAR(50) NOT NULL
+    ExamID INTEGER PRIMARY KEY AUTOINCREMENT,
+    LastName VARCHAR(50) NOT NULL,
+    FirstName VARCHAR(50) NOT NULL
 );
-
 -- 2. Modifying table fields
+
 -- 2.1 ADD COLUMN
 ALTER TABLE
-  examples
-ADD COLUMN
-  Country VARCHAR(100) NOT NULL DEFAULT 'default value';
-
---
+    examples
+ADD COLUMN 
+    City VARCHAR(100) NOT NULL DEFAULT 'SEOUL';
 
 -- sqlite는 단일 문을 사용하여 한번에 여러 열을 추가하는 것을 지원하지 않음
-ALTER TABLE
-  examples
-ADD COLUMN
-  Age INTEGER NOT NULL DEFAULT 0;
-
-ALTER TABLE
-  examples
-ADD COLUMN
-  Address VARCHAR(100) NOT NULL DEFAULT 'default value';
 
 -- 2.2 RENAME COLUMN
 ALTER TABLE
-  examples
+    examples
 RENAME COLUMN
-  Address TO PostCode;
+    Address TO PostCode;
 
--- 2.3 DROP COLUMN
+-- 2.3 RENAME TO
 ALTER TABLE
-  examples
-DROP COLUMN
-  PostCode;
-
--- 2.4 RENAME TO
-ALTER TABLE
-  examples
+    table_name
 RENAME TO
-  new_examples;
-
+    new_table_name
+    
 -- 3. Delete a table
-DROP TABLE new_examples;
+ALTER TABLE
+    examples
+DROP COLUMN
+    PostCode;
 
 
 -- sqlite는 컬럼 수정 불가

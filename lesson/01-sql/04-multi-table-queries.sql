@@ -21,6 +21,9 @@ CREATE TABLE articles (
     REFERENCES users(id)
 );
 
+SELECT *
+FROM articles
+
 INSERT INTO 
   users (name)
 VALUES 
@@ -43,11 +46,11 @@ SELECT articles.title, users.name
 FROM articles
 INNER JOIN users
   ON users.id = articles.userId
-WHERE
-  users.id = 1;
+WHERE users.id = 1;
 
 -- LEFT JOIN
-SELECT users.name FROM users
+SELECT articles.name
+FROM users
 LEFT JOIN articles
-  ON articles.userId = users.id
+  ON articles.userID = users.id
 WHERE articles.userId IS NULL;
